@@ -24,7 +24,6 @@ class SukienController extends AppController
 
         $this->set(compact('sukien'));
     }
-
     /**
      * View method
      *
