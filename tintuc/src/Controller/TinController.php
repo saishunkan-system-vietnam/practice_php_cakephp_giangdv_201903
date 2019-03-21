@@ -20,8 +20,6 @@ class TinController extends AppController
      */
     public function index()
     {
-        $q = $this->request->getQuery();
-
         $tin = $this->Tin->find()->select([
             'TieuDe',
             'TieuDe_KhongDau',
@@ -41,18 +39,17 @@ class TinController extends AppController
                 'conditions'=>'Tin.idUser = u.idUser'
             ]
         ]);
-    if(!empty($q['TieuDe'])){
-       $tin= $tin->where(
-            [
+        $q = $this->request->getQuery();
+        if(!empty($q['TieuDe'])){
+           $tin= $tin->where([
                 'Tin.TieuDe LIKE' => "%".$q['TieuDe']."%"
-            ]
-            ); 
-    }
-         
-        $this->paginate($tin);
-        
-        $this->set(compact('tin'));
-    }
+            ]); 
+        }
+
+            $this->paginate($tin);
+
+            $this->set(compact('tin'));
+        }
 
     /**
      * View method

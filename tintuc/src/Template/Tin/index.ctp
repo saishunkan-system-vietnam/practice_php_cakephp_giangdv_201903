@@ -34,13 +34,13 @@
       <table cellpadding="0" cellspacing="0">
         <thead>
         <tr style="border-bottom:none">
-            <td><?= $this->Html->link(__('Thêm bài viết'), ['action' => 'add'],array('class' => 'btn btn-primary')) ?></td>
-            <td>
+            <td><?= $this->Html->link(__('Thêm'), ['action' => 'add'],array('class' => 'btn btn-primary')) ?></td>
+<!--            <td>
                 <form action="/Tin" method="get">
                     <input type="search" name ="TieuDe" />
                     <input type="submit" value="Tìm kiếm" />
                 </form>
-            </td>
+            </td>-->
         </tr>
             <tr>
                 
@@ -54,6 +54,16 @@
                 
                 <th scope="col"><?= $this->Paginator->sort('AnHien', array('label'=>'Ẩn hiện')) ?></th>
                 <th scope="col" class="actions"><?= __('Thao tác') ?></th>
+            </tr>
+            <tr>
+                <form action="/Tin" method="get">
+                <td><input type="search" name ="TieuDe" /></td>
+                <td><input type="search" name ="TomTat" /></td>
+                <td><input type="search" name ="SoLanXem" /></td>
+                <td><input type="search" name ="TacGia" /></td>
+                <td><input type="search" name ="AnHien" /></td>
+                <td><input type="submit" value="Tìm kiếm" /></td>
+                </form>
             </tr>
         </thead>
         <tbody>
