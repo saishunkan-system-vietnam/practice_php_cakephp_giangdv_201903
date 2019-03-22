@@ -68,7 +68,7 @@ class DanhmucController extends AppController
         }
         if(!empty($q['an_hien'])){
             $danh_muc->where([
-                'Danhmuc.an_hien LIKE' => "%".$q['an_hien']."%"
+                'Danhmuc.an_hien IN' => $q['an_hien']
             ]);
         }
         if(!empty($q['ten_danhmuc_cha'])){
@@ -77,7 +77,7 @@ class DanhmucController extends AppController
             ]);
         }
         $this->paginate($danh_muc);
-        $this->set(compact('danh_muc','inputData'));
+        $this->set(compact('danh_muc'));
     }
     
     
@@ -117,7 +117,7 @@ class DanhmucController extends AppController
     }
     public function add()
     {
-        $danhmuc = $this->Danhmuc->newEntity();
+        $danhmuc = $this->Danhmuc->newEntity($this->request->getData());
         if ($this->request->is('post')) {
             $danhmuc = $this->Danhmuc->patchEntity($danhmuc, $this->request->getData());
             if ($this->Danhmuc->save($danhmuc)) {
@@ -125,7 +125,7 @@ class DanhmucController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The danhmuc could not be saved. Please, try again.'));
+//            $this->Flash->error(__('The danhmuc could not be saved. Please, try again.'));
         }
         $dmuc = $this->getParentID();
         //var_dump($dmuc);

@@ -23,12 +23,21 @@
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
             <tr>
-                <?= $this->Form->create('inputData') ?>
+                <?= $this->Form->create(null,['type'=>'get', 'valueSources' => 'query']) ?>
                     <fieldset>
                     <td><?= $this->Form->control('id_danhmuc');?></td>
                     <td><?= $this->Form->control('ten_danhmuc');?></td>
                     <td><?= $this->Form->control('thu_tu');?></td>
-                    <td><?= $this->Form->control('an_hien');?></td>
+                    <td>
+                        <?php
+                            $option = array(1 => 'Hiện', 0 => 'Ẩn');
+                        ?>
+                        <?= $this->Form->control('an_hien', [
+                            'type'=>'select',
+                            'multiple'=>'checkbox', 
+                            'options'=> $option,
+                            ])?>
+                    </td>
                     <td><?= $this->Form->control('ten_danhmuc_cha');?></td>
                     
 <!--                <td><input type="search" name ="ten_danhmuc" /></td>
@@ -70,10 +79,6 @@
                 </td>
             </tr>
             <?php endforeach; ?>
-            <?php
-   
-                    //showCategories($categories);
-            ?>
         </tbody>
     </table>
    

@@ -56,14 +56,26 @@
                 <th scope="col" class="actions"><?= __('Thao tác') ?></th>
             </tr>
             <tr>
-                <form action="/Tin" method="get">
-                <td><input type="search" name ="TieuDe" /></td>
-                <td><input type="search" name ="TomTat" /></td>
-                <td><input type="search" name ="SoLanXem" /></td>
-                <td><input type="search" name ="TacGia" /></td>
-                <td><input type="search" name ="AnHien" /></td>
-                <td><input type="submit" value="Tìm kiếm" /></td>
-                </form>
+                <?= $this->Form->create(null,['type'=>'get', 'valueSources' => 'query']) ?>
+                <fieldset>
+                <td><?= $this->Form->control('TieuDe');?></td>
+                <td><?= $this->Form->control('TomTat');?></td>
+                <td><?= $this->Form->control('SoLanXem',['placeholder'=>'Từ']);?><?= $this->Form->control('SoLanXem',['placeholder'=>'Đến']);?></td>
+                <td><?= $this->Form->control('TacGia');?></td>
+                <td>
+                <?php
+                            $option = array(1 => 'Hiện', 0 => 'Ẩn');
+                        ?>
+                        <?= $this->Form->control('AnHien', [
+                            'type'=>'select',
+                            'multiple'=>'checkbox', 
+                            'options'=> $option,
+                            ])?>
+                </td>
+                <td><?= $this->Form->button(__('Tìm kiếm')) ?></td>
+                
+                <?= $this->Form->end() ?>
+                <fieldset>
             </tr>
         </thead>
         <tbody>
@@ -78,7 +90,19 @@
                 
                 <td><?= h($t->user_name) ?></td>
                 
-                <td><?= h($t->AnHien) ?></td>
+                 <?php
+                    if($t->AnHien == 0){
+                        echo '<td>';
+                        echo 'ẩn';
+                        echo '</td>';
+                ?>
+                <?php
+                    }else{
+                        echo '<td>';
+                        echo 'hiện';
+                        echo '</td>';
+                    }
+                ?>
                 <td class="actions">
                     
                     <?= $this->Html->link(__('Sửa tin'), ['action' => 'edit', $t->idTin]) ?>

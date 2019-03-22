@@ -40,12 +40,36 @@ class TinController extends AppController
             ]
         ]);
         $q = $this->request->getQuery();
+//        if(!empty($q['idTin'])){
+//            $danh_muc->where([
+//                'Tin.idTin' => $q['idTin']
+//            ]);
+//        }
         if(!empty($q['TieuDe'])){
-           $tin= $tin->where([
+            $tin->where([
                 'Tin.TieuDe LIKE' => "%".$q['TieuDe']."%"
-            ]); 
+            ]);
         }
-
+        if(!empty($q['TomTat'])){
+            $tin->where([
+                'Tin.TomTat LIKE' => "%".$q['TomTat']."%"
+            ]);
+        }
+        if(!empty($q['SoLanXem'])){
+            $tin->where([
+                'Tin.SoLanXem' => $q['SoLanXem']
+            ]);
+        }
+        if(!empty($q['TacGia'])){
+            $tin->where([
+                'u.HoTen LIKE' => "%".$q['TacGia']."%"
+            ]);
+        }
+        if(!empty($q['AnHien'])){
+            $tin->where([
+                'Tin.AnHien IN' => $q['AnHien']
+            ]);
+        }
             $this->paginate($tin);
 
             $this->set(compact('tin'));
@@ -63,7 +87,7 @@ class TinController extends AppController
         $tin = $this->Tin->get($id, [
             'contain' => []
         ]);
-
+        
         $this->set('tin', $tin);
     }
     public $paginate = [

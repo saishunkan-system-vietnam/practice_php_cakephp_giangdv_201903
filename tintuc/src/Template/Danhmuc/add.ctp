@@ -13,13 +13,19 @@
     </ul>
 </nav>
 <div class="danhmuc form large-9 medium-8 columns content">
-    <?= $this->Form->create($danhmuc) ?>
+    <?= $this->Form->create($danhmuc,['novalidate' => true]) ?>
     <fieldset>
         <legend><?= __('Add Danhmuc') ?></legend>
         <?php
-            echo $this->Form->control('ten_danhmuc');
+            echo $this->Form->control('ten_danhmuc',array('required'=>true
+                ));
             echo $this->Form->control('thu_tu');
-            echo $this->Form->control('an_hien');
+            $option = array(1 => 'Hiện', 0 => 'Ẩn');
+            echo $this->Form->control('an_hien', [
+                            'type'=>'radio',
+                            'multiple'=>'checkbox', 
+                            'options'=> $option,
+                            ]);
             echo $this->Form->select('parent_id', $dmuc);
         ?>
     </fieldset>

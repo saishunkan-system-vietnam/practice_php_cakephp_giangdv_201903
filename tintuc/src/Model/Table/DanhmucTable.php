@@ -58,26 +58,26 @@ class DanhmucTable extends Table
     {
         $validator
             ->integer('id_danhmuc')
-            ->allowEmptyString('id_danhmuc', 'create');
+            ->allowEmptyString('id_danhmuc',false);
 
         $validator
             ->scalar('ten_danhmuc')
             ->maxLength('ten_danhmuc', 100)
-            ->requirePresence('ten_danhmuc', 'create')
-            ->allowEmptyString('ten_danhmuc', false);
+            ->requirePresence('ten_danhmuc', 'create','Trường bắt buộc')
+            ->allowEmptyString('ten_danhmuc', false)
+            ->notEmpty('An email address is required.');
 
         $validator
             ->integer('thu_tu')
-            ->requirePresence('thu_tu', 'create')
+            ->requirePresence('thu_tu', 'create','Trường bắt buộc')
             ->allowEmptyString('thu_tu', false);
 
         $validator
-            ->requirePresence('an_hien', 'create')
+            ->requirePresence('an_hien', 'create','Trường bắt buộc')
             ->allowEmptyString('an_hien', false);
 
         return $validator;
     }
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.
