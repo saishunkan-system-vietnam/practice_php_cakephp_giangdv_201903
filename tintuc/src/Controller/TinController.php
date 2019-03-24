@@ -55,10 +55,12 @@ class TinController extends AppController
                 'Tin.TomTat LIKE' => "%".$q['TomTat']."%"
             ]);
         }
-        if(!empty($q['SoLanXem'])){
-            $tin->where([
-                'Tin.SoLanXem' => $q['SoLanXem']
-            ]);
+        if(!empty($q['so_lan'] && $q['den_lan'] )){
+            $sl = $q['so_lan'];
+            $dl = $q['den_lan'];
+            $tin->where(array(
+                        'Tin.SoLanXem BETWEEN ' . $sl . ' AND ' . $dl
+                        ));
         }
         if(!empty($q['TacGia'])){
             $tin->where([

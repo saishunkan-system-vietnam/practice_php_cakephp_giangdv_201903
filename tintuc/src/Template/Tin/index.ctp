@@ -60,7 +60,10 @@
                 <fieldset>
                 <td><?= $this->Form->control('TieuDe');?></td>
                 <td><?= $this->Form->control('TomTat');?></td>
-                <td><?= $this->Form->control('SoLanXem',['placeholder'=>'Từ']);?><?= $this->Form->control('SoLanXem',['placeholder'=>'Đến']);?></td>
+                <td>
+                <?= $this->Form->control('so_lan',['placeholder'=>'Từ']);?>
+                <?= $this->Form->control('den_lan',['placeholder'=>'Đến']);?>
+                </td>
                 <td><?= $this->Form->control('TacGia');?></td>
                 <td>
                 <?php
@@ -86,7 +89,7 @@
                 
                 <td><?= h($t->TomTat) ?></td>
 
-                <td><?= $this->Number->format($t->SoLanXem) ?></td>
+                <td><?= h($t->SoLanXem) ?></td>
                 
                 <td><?= h($t->user_name) ?></td>
                 
