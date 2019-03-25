@@ -38,12 +38,12 @@
                 echo $this->Form->control('TieuDe_KhongDau', array('label'=>'Tiêu đề không dấu'));
                 echo $this->Form->control('TomTat', array('label'=>'Tóm tắt'));
                 echo $this->Form->control('urlHinh', array('label'=>'Hình ảnh'));
-                echo $this->Form->control('Ngay', array('label'=>'Ngày'), ['empty' => true]);
-                echo $this->Form->control('idUser', array('label'=>'id user'));
+//                echo $this->Form->control('Ngay', array('label'=>'Ngày'), ['empty' => true]);
+                echo $this->Form->select('idUser', $option);
                 echo $this->Form->control('Content', array('label'=>'Nội dung bài viết'));
-                echo $this->Form->control('idLT', array('label'=>'id loại tin'));
-                echo $this->Form->control('idTL', array('label'=>'id thể loại'));
-                echo $this->Form->control('SoLanXem', array('label'=>'Số lần xem'));
+//                echo $this->Form->control('idLT', array('label'=>'id loại tin'));
+                echo $this->Form->select('idTL', $option_d_muc);
+//                echo $this->Form->control('SoLanXem', array('label'=>'Số lần xem'));
                 echo $this->Form->control('TinNoiBat', array('label'=>'Tin nổi bật'));
                 echo $this->Form->control('AnHien', array('label'=>'Ẩn hiện'));
             ?>

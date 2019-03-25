@@ -70,27 +70,27 @@ class TinTable extends Table
             ->maxLength('urlHinh', 255)
             ->allowEmptyString('urlHinh');
 
-        $validator
-            ->date('Ngay')
-            ->allowEmptyDate('Ngay');
+//        $validator
+//            ->date('Ngay')
+//            ->allowEmptyDate('Ngay');
 
-        $validator
-            ->integer('idUser')
-            ->requirePresence('idUser', 'create')
-            ->allowEmptyString('idUser', false);
+//        $validator
+//            ->integer('idUser')
+//            ->requirePresence('idUser', 'create')
+//            ->allowEmptyString('idUser', false);
 
         $validator
             ->scalar('Content')
             ->allowEmptyString('Content');
 
-        $validator
-            ->integer('idLT')
-            ->requirePresence('idLT', 'create')
-            ->allowEmptyString('idLT', false);
-
-        $validator
-            ->integer('idTL')
-            ->allowEmptyString('idTL');
+//        $validator
+//            ->integer('idLT')
+//            ->requirePresence('idLT', 'create')
+//            ->allowEmptyString('idLT', false);
+//
+//        $validator
+//            ->integer('idTL')
+//            ->allowEmptyString('idTL');
 
         $validator
             ->integer('SoLanXem')
@@ -100,9 +100,9 @@ class TinTable extends Table
             ->boolean('TinNoiBat')
             ->allowEmptyString('TinNoiBat');
 
-        $validator
-            ->boolean('AnHien')
-            ->allowEmptyString('AnHien');
+//        $validator
+//            ->boolean('AnHien')
+//            ->allowEmptyString('AnHien');
 
         return $validator;
     }

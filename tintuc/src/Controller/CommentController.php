@@ -21,7 +21,8 @@ class CommentController extends AppController
     public function index()
     {
         $comment = $this->paginate($this->Comment);
-
+        
+        
         $this->set(compact('comment'));
     }
 
@@ -34,11 +35,29 @@ class CommentController extends AppController
      */
     public function view($id = null)
     {
-        $comment = $this->Comment->get($id, [
-            'contain' => []
-        ]);
-
-        $this->set('comment', $comment);
+        $binh_luan = $this->Comment->find()
+                ->where([
+                    'id' => $id
+                        ])
+                ->select([
+                    'id',
+                    'idTin',
+                    'hoten',
+                    'email',
+                    'noidung',
+                    'tieu_de'=>'t.TieuDe'
+                        
+        ])->join([
+            't'=>[
+                'table'=> 'Tin',
+                'alias'=> 't',
+                'type'=>'LEFT',
+                'conditions' =>'t.idTin = Comment.idTin'
+            ]
+        ])->first();
+        //$comment = $this->Comment->get($id);
+        
+        $this->set(compact('binh_luan'));
     }
 
     /**

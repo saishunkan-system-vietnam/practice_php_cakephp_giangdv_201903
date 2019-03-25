@@ -107,7 +107,7 @@
                     }
                 ?>
                 <td class="actions">
-                    
+                    <?= $this->Html->link(__('Xem chi tiết'), ['action' => 'view', $t->idTin]) ?>
                     <?= $this->Html->link(__('Sửa tin'), ['action' => 'edit', $t->idTin]) ?>
                     <?= $this->Form->postLink(__('Xóa'), ['action' => 'delete', $t->idTin], ['confirm' => __('Are you sure you want to delete # {0}?', $t->idTin)]) ?>
                 </td>

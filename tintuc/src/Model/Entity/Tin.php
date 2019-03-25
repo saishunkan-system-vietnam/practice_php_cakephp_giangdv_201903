@@ -43,6 +43,7 @@ class Tin extends Entity
         'idLT' => true,
         'idTL' => true,
         'SoLanXem' => true,
+        'id_danhmuc' => true,
         'TinNoiBat' => true,
         'AnHien' => true
     ];
