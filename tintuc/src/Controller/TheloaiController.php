@@ -49,6 +49,7 @@ class TheloaiController extends AppController
     public function add()
     {
         $theloai = $this->Theloai->newEntity();
+        
         if ($this->request->is('post')) {
             $theloai = $this->Theloai->patchEntity($theloai, $this->request->getData());
             if ($this->Theloai->save($theloai)) {

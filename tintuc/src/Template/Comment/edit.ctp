@@ -24,7 +24,7 @@
             echo $this->Form->control('hoten');
             echo $this->Form->control('email');
             echo $this->Form->control('noidung');
-            echo $this->Form->control('idTin');
+            echo $this->Form->select('idTin',$option);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

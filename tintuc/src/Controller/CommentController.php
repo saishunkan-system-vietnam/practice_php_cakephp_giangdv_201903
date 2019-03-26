@@ -20,10 +20,28 @@ class CommentController extends AppController
      */
     public function index()
     {
+        $binh_luan = $this->Comment->find()
+                ->select([
+                    'id',
+                    'idTin',
+                    'hoten',
+                    'email',
+                    'noidung',
+                    'tieu_de'=>'t.TieuDe'
+                        
+        ])->join([
+            't'=>[
+                'table'=> 'Tin',
+                'alias'=> 't',
+                'type'=>'LEFT',
+                'conditions' =>'t.idTin = Comment.idTin'
+            ]
+        ])->all();
+        //pr($binh_luan); die;
         $comment = $this->paginate($this->Comment);
         
         
-        $this->set(compact('comment'));
+        $this->set(compact('comment','binh_luan'));
     }
 
     /**
@@ -89,9 +107,28 @@ class CommentController extends AppController
      */
     public function edit($id = null)
     {
-        $comment = $this->Comment->get($id, [
-            'contain' => []
-        ]);
+        $binh_luan = $this->Comment->find()
+                ->select([
+                    'id',
+                    'idTin',
+                    'hoten',
+                    'email',
+                    'noidung',
+                    'tieu_de'=>'t.TieuDe'
+                        
+        ])->join([
+            't'=>[
+                'table'=> 'Tin',
+                'alias'=> 't',
+                'type'=>'LEFT',
+                'conditions' =>'t.idTin = Comment.idTin'
+            ]
+        ])->all();
+        $option = [];
+        foreach ($binh_luan as $bl){
+            $option[] = $bl->tieu_de;
+        }
+        $comment = $this->Comment->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $comment = $this->Comment->patchEntity($comment, $this->request->getData());
             if ($this->Comment->save($comment)) {
@@ -101,7 +138,7 @@ class CommentController extends AppController
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
-        $this->set(compact('comment'));
+        $this->set(compact('comment','option'));
     }
 
     /**

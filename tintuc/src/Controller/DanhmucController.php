@@ -118,14 +118,21 @@ class DanhmucController extends AppController
     public function add()
     {
         $danhmuc = $this->Danhmuc->newEntity($this->request->getData());
+
         if ($this->request->is('post')) {
-            $danhmuc = $this->Danhmuc->patchEntity($danhmuc, $this->request->getData());
+            
+            $input['ten_danhmuc'] = trim($this->request->getData('ten_danhmuc'));
+            $input['thu_tu'] = trim($this->request->getData('thu_tu'));
+            $input['an_hien'] = trim($this->request->getData('an_hien'));
+            $input['parent_id'] = trim($this->request->getData('parent_id'));
+            
+            $danhmuc = $this->Danhmuc->patchEntity($danhmuc, $input);
             if ($this->Danhmuc->save($danhmuc)) {
-                $this->Flash->success(__('The danhmuc has been saved.'));
+                $this->Flash->success(__('Thêm danh mục thành công'));
 
                 return $this->redirect(['action' => 'index']);
             }
-//            $this->Flash->error(__('The danhmuc could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại. Hãy thử lại'));
         }
         $dmuc = $this->getParentID();
         //var_dump($dmuc);
@@ -142,17 +149,24 @@ class DanhmucController extends AppController
      */
     public function edit($id = null)
     {
-        $danhmuc = $this->Danhmuc->get($id, [
-            'contain' => []
-        ]);
+        $danhmuc = $this->Danhmuc->get($id);
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $danhmuc = $this->Danhmuc->patchEntity($danhmuc, $this->request->getData());
+            
+            $input['ten_danhmuc'] = trim($this->request->getData('ten_danhmuc'));
+            $input['thu_tu'] = trim($this->request->getData('thu_tu'));
+            $input['an_hien'] = trim($this->request->getData('an_hien'));
+            $input['parent_id'] = trim($this->request->getData('parent_id'));
+            
+            $danhmuc = $this->Danhmuc->patchEntity($danhmuc, $input);
+            
             if ($this->Danhmuc->save($danhmuc)) {
-                $this->Flash->success(__('The danhmuc has been saved.'));
+                
+                $this->Flash->success(__('Cập nhật thành công'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The danhmuc could not be saved. Please, try again.'));
+            $this->Flash->error(__('Thất bại, hãy thử lại'));
         }
         $dmuc = $this->getParentID();
         $this->set(compact('danhmuc','dmuc'));

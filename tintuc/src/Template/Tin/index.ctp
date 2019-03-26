@@ -113,18 +113,22 @@
                 </td>
             </tr>
             <?php endforeach; ?>
+            
         </tbody>
+        
+        
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
+    <?php
+        for($trang = 1; $trang<= $sotrang ; $trang++){
+            if(empty($url_query)) {
+                echo "<a href='http://tintuc.com/tin?trang=$trang'>Trang $trang</a> -";
+            } else {
+                echo "<a href='http://tintuc.com/tin?trang=$trang$url_query'>Trang $trang</a> -";
+            }
+            
+        }
+    ?>
+    
       </div>
     </div>
     <!-- /#page-content-wrapper -->

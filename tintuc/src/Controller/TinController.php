@@ -21,6 +21,15 @@ class TinController extends AppController
      */
     public function index()
     {
+        
+        $sotin1trang = 10;
+        $from = 0;
+        $trang = $this->request->getQuery('trang');
+        if(isset($trang)){
+           echo $from = ($trang - 1 ) * $sotin1trang; 
+        }else{
+            $trang = 1;
+        }
         $tin = $this->Tin->find()->select([
             'idTin',
             'TieuDe',
@@ -33,7 +42,8 @@ class TinController extends AppController
             'TinNoiBat',
             'AnHien',
             'user_name'=>'u.Username'
-        ])->join([
+        ])
+        ->join([
             'u'=>[
                 'table'=>'Users',
                 'alias'=>'u',
@@ -41,54 +51,67 @@ class TinController extends AppController
                 'conditions'=>'Tin.idUser = u.idUser'
             ]
         ]);
+
+        $l_t= $this->Tin->find()->select(['count' => 'count(1)'])
+        ->join([
+            'u'=>[
+                'table'=>'Users',
+                'alias'=>'u',
+                'type'=>'LEFT',
+                'conditions'=>'Tin.idUser = u.idUser'
+            ]
+        ]);
+        $conditions = [];
+        $url_query = '';
         $q = $this->request->getQuery();
-//        if(!empty($q['idTin'])){
-//            $danh_muc->where([
-//                'Tin.idTin' => $q['idTin']
-//            ]);
-//        }
         if(!empty($q['TieuDe'])){
-            $tin->where([
+            $url_query .= '&TieuDe=' . $q['TieuDe'];
+            $conditions = array_merge($conditions,[
                 'Tin.TieuDe LIKE' => "%".$q['TieuDe']."%"
             ]);
         }
         if(!empty($q['TomTat'])){
-            $tin->where([
+            $url_query .= '&TomTat=' . $q['TomTat'];
+            $conditions = array_merge($conditions,[
                 'Tin.TomTat LIKE' => "%".$q['TomTat']."%"
             ]);
         }
-//        if(!empty($q['so_lan'] && $q['den_lan'] )){
-//            $sl = $q['so_lan'];
-//            $dl = $q['den_lan'];
-//            $tin->where(array(
-//                        'Tin.SoLanXem BETWEEN ' . $sl . ' AND ' . $dl
-//                        ));
-//        }
         if(!empty($q['so_lan'])){
-           $sl = $q['so_lan'];
-           $tin->where(array(
-                        'Tin.SoLanXem >= ' => $sl 
-                        ));
+           $url_query .= '&so_lan=' . $q['so_lan'];
+           $conditions = array_merge($conditions,['Tin.SoLanXem >= ' => $q['so_lan']]);
         }
         if(!empty($q['den_lan'])){
-           $dl = $q['den_lan'];
-           $tin->where(array(
-                        'Tin.SoLanXem <= ' => $dl
-                        )); 
+           $url_query .= '&den_lan=' . $q['den_lan'];
+           $conditions = array_merge($conditions,['Tin.SoLanXem <= ' => $q['den_lan']]);
         }
         if(!empty($q['TacGia'])){
-            $tin->where([
+            $url_query .= '&TacGia=' . $q['TacGia'];
+            $conditions = array_merge($conditions,[
                 'u.HoTen LIKE' => "%".$q['TacGia']."%"
             ]);
         }
         if(!empty($q['AnHien'])){
-            $tin->where([
+            $url_anhien = '';
+            foreach ($q['AnHien'] as $anhien) {
+                    $url_anhien .= '&AnHien[]=' . $anhien;    
+            }
+            $url_query .= $url_anhien;
+            $conditions = array_merge($conditions,[
                 'Tin.AnHien IN' => $q['AnHien']
             ]);
         }
-            $this->paginate($tin);
-
-            $this->set(compact('tin'));
+//        if (empty($url_query)) {
+//            $url_query = '';
+//        }
+        $tin = $tin->where($conditions)
+            ->order(['idTin' => 'DESC'])
+            ->limit($sotin1trang)->offset($from);
+        //pr($tin); die;
+        $list_all = $l_t->where($conditions)->first();
+        //pr($list_all); die;
+        $tongsotin = $list_all['count'];
+        $sotrang = ceil($tongsotin/$sotin1trang);
+            $this->set(compact('tin','sotrang','url_query'));
         }
 
     /**

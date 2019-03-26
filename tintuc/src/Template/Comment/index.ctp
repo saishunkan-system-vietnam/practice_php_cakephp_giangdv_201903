@@ -18,21 +18,21 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('hoten') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('idTin') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Bài viết') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($comment as $comment): ?>
+            <?php foreach ($binh_luan as $bl): ?>
             <tr>
-                <td><?= $this->Number->format($comment->id) ?></td>
-                <td><?= h($comment->hoten) ?></td>
-                <td><?= h($comment->email) ?></td>
-                <td><?= $this->Number->format($comment->idTin) ?></td>
+                <td><?= $this->Number->format($bl->id) ?></td>
+                <td><?= h($bl->hoten) ?></td>
+                <td><?= h($bl->email) ?></td>
+                <td><?= h($bl->tieu_de) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $comment->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $comment->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $comment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $bl->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bl->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $bl->id], ['confirm' => __('Are you sure you want to delete # {0}?', $bl->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
