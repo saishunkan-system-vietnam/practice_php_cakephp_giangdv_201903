@@ -28,6 +28,7 @@ class Comment extends Entity
         'hoten' => true,
         'email' => true,
         'noidung' => true,
-        'idTin' => true
+        'idTin' => true,
+        'an_hien' => true
     ];
 }

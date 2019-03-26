@@ -18,6 +18,16 @@ class CommentController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
+//    private function getReaderName(){
+//        $query = $this->Comment->find()->select([
+//                'id',
+//                'hoten'
+//            ])->all();
+//            $readerName = [];
+//            foreach($query as $q){
+//                $readerName[$q->id] = $q->hoten;
+//            }
+//    }
     public function index()
     {
         $binh_luan = $this->Comment->find()
@@ -27,6 +37,7 @@ class CommentController extends AppController
                     'hoten',
                     'email',
                     'noidung',
+                    'an_hien',
                     'tieu_de'=>'t.TieuDe'
                         
         ])->join([
@@ -37,6 +48,23 @@ class CommentController extends AppController
                 'conditions' =>'t.idTin = Comment.idTin'
             ]
         ])->all();
+        
+         $query = $this->Comment->find()->select([
+                'id',
+                'hoten'
+            ])->where();
+//            ->join([
+//                't' =>[
+//                    'table' => 'Tin',
+//                    'alias' => 't',
+//                    'type' => 'LEFT',
+//                    'conditions' => 't.idTin = Comment.idTin'
+//                ]
+//            ])->all();
+            $readerName = [];
+            foreach($query as $q){
+                $readerName[$q->id] = $q->hoten;
+            }  
         //pr($binh_luan); die;
         $comment = $this->paginate($this->Comment);
         
@@ -63,6 +91,7 @@ class CommentController extends AppController
                     'hoten',
                     'email',
                     'noidung',
+                    'an_hien',
                     'tieu_de'=>'t.TieuDe'
                         
         ])->join([

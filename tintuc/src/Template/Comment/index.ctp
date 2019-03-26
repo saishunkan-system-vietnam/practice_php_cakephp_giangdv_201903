@@ -16,9 +16,11 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('hoten') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Bài viết') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Tên người bình luận') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                
+                <th scope="col"><?= $this->Paginator->sort('Ẩn hiện') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -26,9 +28,11 @@
             <?php foreach ($binh_luan as $bl): ?>
             <tr>
                 <td><?= $this->Number->format($bl->id) ?></td>
+                <td><?= h($bl->tieu_de) ?></td>
                 <td><?= h($bl->hoten) ?></td>
                 <td><?= h($bl->email) ?></td>
-                <td><?= h($bl->tieu_de) ?></td>
+                
+                <td><?= h($bl->an_hien) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $bl->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bl->id]) ?>
