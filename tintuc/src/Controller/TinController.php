@@ -21,7 +21,6 @@ class TinController extends AppController
      */
     public function index()
     {
-        
         $sotin1trang = 10;
         $from = 0;
         $trang = $this->request->getQuery('trang');
@@ -100,15 +99,10 @@ class TinController extends AppController
                 'Tin.AnHien IN' => $q['AnHien']
             ]);
         }
-//        if (empty($url_query)) {
-//            $url_query = '';
-//        }
         $tin = $tin->where($conditions)
             ->order(['idTin' => 'DESC'])
             ->limit($sotin1trang)->offset($from);
-        //pr($tin); die;
         $list_all = $l_t->where($conditions)->first();
-        //pr($list_all); die;
         $tongsotin = $list_all['count'];
         $sotrang = ceil($tongsotin/$sotin1trang);
             $this->set(compact('tin','sotrang','url_query'));

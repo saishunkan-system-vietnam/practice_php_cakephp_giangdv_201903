@@ -22,34 +22,6 @@
                 <th scope="col"><?= $this->Paginator->sort('parent_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
-            <tr>
-                <?= $this->Form->create(null,['type'=>'get', 'valueSources' => 'query']) ?>
-                    <fieldset>
-                    <td><?= $this->Form->control('id_danhmuc');?></td>
-                    <td><?= $this->Form->control('ten_danhmuc');?></td>
-                    <td><?= $this->Form->control('thu_tu');?></td>
-                    <td>
-                        <?php
-                            $option = array(1 => 'Hiện', 0 => 'Ẩn');
-                        ?>
-                        <?= $this->Form->control('an_hien', [
-                            'type'=>'select',
-                            'multiple'=>'checkbox', 
-                            'options'=> $option,
-                            ])?>
-                    </td>
-                    <td><?= $this->Form->control('ten_danhmuc_cha');?></td>
-                    
-<!--                <td><input type="search" name ="ten_danhmuc" /></td>
-                    <td><input type="search" name ="thu_tu" /></td>
-                    <td><input type="search" name ="an_hien" /></td>
-                    <td><input type="search" name ="ten_danhmuc_cha"/></td>-->
-                    <!--<td><input type="submit" value="Tìm kiếm" /></td>-->
-                
-                <?= $this->Form->button(__('Submit')) ?>
-                <?= $this->Form->end() ?>
-                <fieldset>
-            </tr>
         </thead>
         <tbody>
             <?php foreach ($danh_muc as $dmuc): ?>

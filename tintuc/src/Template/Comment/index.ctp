@@ -7,49 +7,82 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Comment'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Danhmuc'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="comment index large-9 medium-8 columns content">
-    <h3><?= __('Comment') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+<div class="danhmuc index large-9 medium-8 columns content">
+    <h3><?= __('Danh sách bình luận') ?></h3>
+    <table border="1">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Bài viết') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Tên người bình luận') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                
-                <th scope="col"><?= $this->Paginator->sort('Ẩn hiện') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th>Tiêu đề</th>
+                <th>Tóm tắt</th>
+                <th>Họ tên</th>
+                <th>Nội dung</th>
+                <th>Duyệt bình luận</th>
+            </tr>
+            <tr>
+                <?= $this->Form->create(null,['type'=>'get', 'valueSources' => 'query']) ?>
+                    <fieldset>
+                    <td><?= $this->Form->control('tieu de');?></td>
+                    <td><?= $this->Form->control('tom_tat');?></td>
+                    <td><?= $this->Form->control('ho_ten');?></td>
+                    <td><?= $this->Form->control('noi_dung');?></td>
+                    <td>
+                        <?php
+                            $option = array(1 => 'Hiện', 0 => 'Ẩn');
+                        ?>
+                        <?= $this->Form->control('trang_thai', [
+                            'type'=>'select',
+                            'multiple'=>'checkbox', 
+                            'options'=> $option,
+                            ])?>
+                    </td>
+                    
+
+                <?= $this->Form->button(__('Tìm kiếm')) ?>
+                <?= $this->Form->end() ?>
+                <fieldset>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($binh_luan as $bl): ?>
-            <tr>
-                <td><?= $this->Number->format($bl->id) ?></td>
-                <td><?= h($bl->tieu_de) ?></td>
-                <td><?= h($bl->hoten) ?></td>
-                <td><?= h($bl->email) ?></td>
-                
-                <td><?= h($bl->an_hien) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $bl->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bl->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $bl->id], ['confirm' => __('Are you sure you want to delete # {0}?', $bl->id)]) ?>
-                </td>
-            </tr>
+            <?= $this->Form->create(null,['type'=>'post']) ?>
+            <?php foreach ($bai_v as $bv) : ?>
+                <?php $fisrtRow = true; 
+                      $rowsSpan = $bv->Comments->count(); ?>
+                <?php foreach ($bv->Comments as $cm) : 
+                    ?>
+                <tr>
+                    <?php if($fisrtRow) { ?>
+                    
+                    <td rowspan="<?= $rowsSpan ?>"><?= $bv->TieuDe?></td>
+                    <td rowspan="<?= $rowsSpan ?>"><?= $bv->TomTat?></td>
+                    <?php } ?>
+                    <?php $fisrtRow = false; ?>
+                    
+                    <td><?= $cm->hoten ?></td>
+                    <td><?= $cm->noidung ?></td>
+                    <td>
+                        <?php if($cm->an_hien == 1){
+                            echo 'Đã duyệt';
+                        }else{?>
+                        <?php echo $this->Form->checkbox("anhien[$cm->id]", ['hiddenField' => false, 'value' => $cm->id]); ?>
+                        <?php } ?>
+                    </td>
+                    
+                    
+                </tr>
+                <?php endforeach; ?>
             <?php endforeach; ?>
+            
+            <td colspan="5" style="text-align: right">
+                <?= $this->Form->button(__('Cập nhật')) ?>
+            </td>
+                    
+            <?= $this->Form->end() ?>
+        </tbody>
+        
         </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
 </div>
+

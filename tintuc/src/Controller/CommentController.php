@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Comment Controller
@@ -10,8 +12,7 @@ use App\Controller\AppController;
  *
  * @method \App\Model\Entity\Comment[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class CommentController extends AppController
-{
+class CommentController extends AppController {
 
     /**
      * Index method
@@ -28,48 +29,50 @@ class CommentController extends AppController
 //                $readerName[$q->id] = $q->hoten;
 //            }
 //    }
-    public function index()
-    {
-        $binh_luan = $this->Comment->find()
-                ->select([
-                    'id',
+    public function index() {
+        $this->loadModel('Tin');
+        if ($this->request->is('post')) {
+            $an_hien= $this->request->getData('anhien');
+            if($an_hien){
+              $result = $this->Comment->updateAll(
+                    [  // fields
+                        'an_hien' => 1
+                    ],
+                    [  // conditions
+                        'id in' => $an_hien
+                    ]
+                );
+              if($result){
+                  $this->Flash->success(__('Duyệt thành công'));
+              }
+            }
+            else{
+               $this->Flash->error(__('Thất bại, hãy thử lại')); 
+            }
+        }
+        $bai_v = $this->Tin->find()->limit(50)->select([
                     'idTin',
-                    'hoten',
-                    'email',
-                    'noidung',
-                    'an_hien',
-                    'tieu_de'=>'t.TieuDe'
-                        
-        ])->join([
-            't'=>[
-                'table'=> 'Tin',
-                'alias'=> 't',
-                'type'=>'LEFT',
-                'conditions' =>'t.idTin = Comment.idTin'
-            ]
-        ])->all();
-        
-         $query = $this->Comment->find()->select([
-                'id',
-                'hoten'
-            ])->where();
-//            ->join([
-//                't' =>[
-//                    'table' => 'Tin',
-//                    'alias' => 't',
-//                    'type' => 'LEFT',
-//                    'conditions' => 't.idTin = Comment.idTin'
-//                ]
-//            ])->all();
-            $readerName = [];
-            foreach($query as $q){
-                $readerName[$q->id] = $q->hoten;
-            }  
-        //pr($binh_luan); die;
-        $comment = $this->paginate($this->Comment);
-        
-        
-        $this->set(compact('comment','binh_luan'));
+                    'TieuDe',
+                    'TomTat'
+                ])->all();
+        foreach ($bai_v as $b_v) {
+            $binh_luan = $this->Comment->find()
+                    ->select([
+                        'id',
+                        'idTin',
+                        'hoten',
+                        'email',
+                        'noidung',
+                        'an_hien'
+                    ])->where(
+                            [
+                                'idTin' => $b_v['idTin']
+                            ]
+                    )
+                    ->all();
+            $b_v['Comments'] = $binh_luan;
+        }
+        $this->set(compact('bai_v'));
     }
 
     /**
@@ -79,31 +82,28 @@ class CommentController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $binh_luan = $this->Comment->find()
-                ->where([
-                    'id' => $id
+                        ->where([
+                            'id' => $id
                         ])
-                ->select([
-                    'id',
-                    'idTin',
-                    'hoten',
-                    'email',
-                    'noidung',
-                    'an_hien',
-                    'tieu_de'=>'t.TieuDe'
-                        
-        ])->join([
-            't'=>[
-                'table'=> 'Tin',
-                'alias'=> 't',
-                'type'=>'LEFT',
-                'conditions' =>'t.idTin = Comment.idTin'
-            ]
-        ])->first();
-        //$comment = $this->Comment->get($id);
-        
+                        ->select([
+                            'id',
+                            'idTin',
+                            'hoten',
+                            'email',
+                            'noidung',
+                            'an_hien',
+                            'tieu_de' => 't.TieuDe'
+                        ])->join([
+                    't' => [
+                        'table' => 'Tin',
+                        'alias' => 't',
+                        'type' => 'LEFT',
+                        'conditions' => 't.idTin = Comment.idTin'
+                    ]
+                ])->first();
+
         $this->set(compact('binh_luan'));
     }
 
@@ -112,8 +112,7 @@ class CommentController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $comment = $this->Comment->newEntity();
         if ($this->request->is('post')) {
             $comment = $this->Comment->patchEntity($comment, $this->request->getData());
@@ -134,27 +133,25 @@ class CommentController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $binh_luan = $this->Comment->find()
-                ->select([
-                    'id',
-                    'idTin',
-                    'hoten',
-                    'email',
-                    'noidung',
-                    'tieu_de'=>'t.TieuDe'
-                        
-        ])->join([
-            't'=>[
-                'table'=> 'Tin',
-                'alias'=> 't',
-                'type'=>'LEFT',
-                'conditions' =>'t.idTin = Comment.idTin'
-            ]
-        ])->all();
+                        ->select([
+                            'id',
+                            'idTin',
+                            'hoten',
+                            'email',
+                            'noidung',
+                            'tieu_de' => 't.TieuDe'
+                        ])->join([
+                    't' => [
+                        'table' => 'Tin',
+                        'alias' => 't',
+                        'type' => 'LEFT',
+                        'conditions' => 't.idTin = Comment.idTin'
+                    ]
+                ])->all();
         $option = [];
-        foreach ($binh_luan as $bl){
+        foreach ($binh_luan as $bl) {
             $option[] = $bl->tieu_de;
         }
         $comment = $this->Comment->get($id);
@@ -167,7 +164,7 @@ class CommentController extends AppController
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
-        $this->set(compact('comment','option'));
+        $this->set(compact('comment', 'option'));
     }
 
     /**
@@ -177,8 +174,7 @@ class CommentController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $comment = $this->Comment->get($id);
         if ($this->Comment->delete($comment)) {
@@ -189,4 +185,5 @@ class CommentController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
 }

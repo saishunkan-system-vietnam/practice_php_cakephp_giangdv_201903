@@ -32,7 +32,6 @@ class DanhmucController extends AppController
     
     public function index()
     {
-        //$danhmuc = $this->paginate($this->Danhmuc);
         $danh_muc = $this->Danhmuc->find('all')
                 ->select([
                     'id_danhmuc',
@@ -109,7 +108,6 @@ class DanhmucController extends AppController
             'ten_danhmuc',
             'id_danhmuc'
         ])->all();
-        //var_dump($query);
         foreach($query as $key => $q){
             $dmuc[$q->id_danhmuc] = $q->ten_danhmuc;
         }
@@ -135,7 +133,6 @@ class DanhmucController extends AppController
             $this->Flash->error(__('Thất bại. Hãy thử lại'));
         }
         $dmuc = $this->getParentID();
-        //var_dump($dmuc);
         $this->set(compact('danhmuc','dmuc'));
     }
     
